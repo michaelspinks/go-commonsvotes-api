@@ -17,46 +17,15 @@ type Division struct {
 	FriendlyTitle string
 	RemoteVotingStart string
 	RemoteVotingEnd string
+	AyeTellers []RecordedMember
+	NoTellers []RecordedMember
+	Ayes []RecordedMember
+	Noes []RecordedMember
+	NoVoteRecorded []RecordedMember
 
 }
 
-type AyeTellers struct {
-	MemberID int
-	Name string
-	Party string
-	SubParty string
-	PartyColour string
-	PartyAbbreviation string
-	MemberFrom string
-	ListAs string
-	ProxyName string
-}
-
-type NoTellers struct {
-	MemberID int
-	Name string
-	Party string
-	SubParty string
-	PartyColour string
-	PartyAbbreviation string
-	MemberFrom string
-	ListAs string
-	ProxyName string
-}
-
-type Ayes struct {
-	MemberID int
-	Name string
-	Party string
-	SubParty string
-	PartyColour string
-	PartyAbbreviation string
-	MemberFrom string
-	ListAs string
-	ProxyName string
-}
-
-type Noes struct {
+type RecordedMember struct {
 	MemberID int
 	Name string
 	Party string

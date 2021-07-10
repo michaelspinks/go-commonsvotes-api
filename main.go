@@ -13,22 +13,22 @@ import (
 // details about the division
 // slices of RecordedMembers for Aye, NoTellers, the Ayes, the Nos, and NoVotesRecorded
 type Division struct {
-	DivisionId             int    `json:"DivisionId"`
-	Date                   string `json:"Date"`
-	PublicationUpdate      string `json:"PublicationUpdate"`
-	Number                 int    `json:"Number"`
-	IsDeferred             bool   `json:"IsDeferred"`
-	EVELType               string `json:"EVELType"`
-	EVELCountry            string `json:"EVELCountry"`
-	Title                  string `json:"Title"`
-	AyeCount               int    `json:"AyeCount"`
-	NoCount                int    `json:"NoCount"`
-	DoubleMajorityAyeCount int    `json:"DoubleMajorityAyeCount"`
-	DoubleMajorityNoCount  int    `json:"DoubleMajorityNoCount"`
-	FriendlyDescription    string `json:"FriendlyDescription"`
-	FriendlyTitle          string `json:"FriendlyTitle"`
-	RemoteVotingStart      string `json:"RemoteVotingStart"`
-	RemoteVotingEnd        string `json:"RemoteVotingEnd"`
+	DivisionId             int    
+	Date                   string 
+	PublicationUpdate      string 
+	Number                 int    
+	IsDeferred             bool   
+	EVELType               string 
+	EVELCountry            string 
+	Title                  string 
+	AyeCount               int    
+	NoCount                int    
+	DoubleMajorityAyeCount int    
+	DoubleMajorityNoCount  int    
+	FriendlyDescription    string 
+	FriendlyTitle          string 
+	RemoteVotingStart      string 
+	RemoteVotingEnd        string 
 	AyeTellers             []RecordedMember
 	NoTellers              []RecordedMember
 	Ayes                   []RecordedMember
@@ -37,20 +37,23 @@ type Division struct {
 }
 
 type RecordedMember struct {
-	MemberID          int    `json:"MemberID"`
-	Name              string `json:"Name"`
-	Party             string `json:"Party"`
-	SubParty          string `json:"SubParty"`
-	PartyColour       string `json:"PartyColour"`
-	PartyAbbreviation string `json:"PartyAbbreviation"`
-	MemberFrom        string `json:"MemberFrom"`
-	ListAs            string `json:"ListAs"`
-	ProxyName         string `json:"ProxyName"`
+	MemberID          int    
+	Name              string 
+	Party             string 
+	SubParty          string 
+	PartyColour       string 
+	PartyAbbreviation string 
+	MemberFrom        string 
+	ListAs            string
+	ProxyName         string
 }
 
 func main() {
 
 	baseURL := "https://commonsvotes-api.parliament.uk/data/division/2.json"
+
+	// initialize our http client
+	client := &http.Client{}
 
 	// define our http request
 	req, err := http.NewRequest("GET", baseURL, nil)
@@ -61,8 +64,7 @@ func main() {
 	// set request header to accept application/json as per the Model on the commons site
 	req.Header.Set("Accept", "application/json")
 
-	// send our HTTP GET request and receive the response
-	client := &http.Client{}
+	// send our HTTP GET request and read the response body
 	resp, err := client.Do(req)
 	if err != nil {
 		log.Fatalln(err)
@@ -72,7 +74,7 @@ func main() {
 	defer resp.Body.Close()
 
 	// read the response body into a byte array b
-	b, err := io.ReadAll(resp.Body)
+	byteArray, err := io.ReadAll(resp.Body)
 	if err != nil {
 		log.Fatalln(err)
 	}
@@ -82,7 +84,7 @@ func main() {
 
 	// unmarshal the byte array with our response body
 	// into division
-	jsonErr := json.Unmarshal(b, &division)
+	jsonErr := json.Unmarshal(byteArray, &division)
 	if jsonErr != nil {
 		log.Fatal(jsonErr)
 	}
@@ -106,7 +108,7 @@ func main() {
 	}
 	fmt.Println("======================================================")
 
-		// print out number of AyeTellers
+	// print out number of AyeTellers
 	// loop through the NoTellers printing out their relevant information
 	fmt.Println("======================================================")
 	fmt.Println("Notellers: " + strconv.Itoa(len(division.NoTellers)))
